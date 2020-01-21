@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
 
 use App\Helpers\Contracts\NavigationCntr;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ProfileController extends Controller
 {
     public $nav;
 
@@ -14,16 +14,12 @@ class HomeController extends Controller
     {
         $this->nav = $nav->select('top');
     }
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function index()
     {
         $data = [
             'topNav' => $this->nav,
         ];
-        return view('front.index', $data);
+        return view('profile.index', $data);
     }
 }
