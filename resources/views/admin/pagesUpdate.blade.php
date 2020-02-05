@@ -4,7 +4,7 @@
 <div class="container marketing">
     <div class="row">
         <div class="col-12 mt-5">
-            <h1 class="h3">{!! __('Добавление страницы') !!}</h1>
+            <h1 class="h3">{!! __('Редактирование страницы') !!}</h1>
             {!! Form::open(['url' => route('adminPageUpdate'), 'class'=>'form-horizontal', 'method'=>'POST']) !!}
             {!! Form::hidden('id', $data['id']) !!}
             <div class="form-group">

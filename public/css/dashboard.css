@@ -99,3 +99,8 @@ body {
 .user-nav {
   margin-right: 30px;
 }
+
+
+.cke_reset {
+  width: 100% !important;
+}

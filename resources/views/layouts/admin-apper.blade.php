@@ -5,30 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Пример на bootstrap 4: Базовая панель администратора с фиксированной боковой панелью и навигационной панелью. Версия v4.0.0">
     <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
+    <link rel="icon" href="/favicon.ico">
 
-    <title>Панель администратора | Dashboard Template for Bootstrap (BS 4.0)</title>
+    <title>Панель администратора</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/css/dashboard.css" rel="stylesheet">
+
+    <script src="/js/ckeditor.js"></script>
 </head>
 
 <body>
 
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{!! route('home') !!}">{!! __('BlogTZ') !!}</a>
-    <ul class="navbar-nav mr-auto">
-        @isset($topNav)
-            @foreach($topNav as $nav)
-                <li class="{!! $nav->class_li !!}">
-                    <a class="{!! $nav->class_a !!}" href="{!! $nav->url !!}">{!! $nav->head !!}</a>
-                </li>
-            @endforeach
-        @endisset
-    </ul>
     <ul class="navbar-nav user-nav">
         @guest
             <li class="nav-item">
@@ -79,6 +72,14 @@
                             </li>
                         @endforeach
                     @endisset
+                    <hr>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                            {{ __('Выход') }}
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -105,6 +106,11 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script src="/js/bootstrap.js"></script>
+
+<script>
+    CKEDITOR.replace('content');
+</script>
+
 
 </body>
 </html>

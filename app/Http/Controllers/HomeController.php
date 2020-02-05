@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Contracts\NavigationCntr;
+use App\Helpers\Navigation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public $nav;
 
-    public function __construct(NavigationCntr $nav)
+    public function __construct(Navigation $nav)
     {
         $this->nav = $nav->select('top');
     }

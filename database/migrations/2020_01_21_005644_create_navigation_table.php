@@ -20,7 +20,7 @@ class CreateNavigationTable extends Migration
             $table->string('class_li')->nullable();
             $table->string('class_a')->nullable();
             $table->string('location')->nullable();
-            $table->text('content')->default('');
+            $table->text('content')->nullable();
             $table->string('status')->default(1);
             $table->timestamps();
         });

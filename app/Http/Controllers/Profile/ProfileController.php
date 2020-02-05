@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Profile;
 
-use App\Helpers\Contracts\NavigationCntr;
+use App\Helpers\Navigation;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -10,7 +10,7 @@ class ProfileController extends Controller
 {
     public $nav;
 
-    public function __construct(NavigationCntr $nav)
+    public function __construct(Navigation $nav)
     {
         $this->nav = $nav->select('top');
     }

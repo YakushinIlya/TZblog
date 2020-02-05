@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\Contracts\NavigationCntr;
+use App\Helpers\Navigation;
 use App\Model\NavigationModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class AdminPanelPagesController extends Controller
     public $listNav;
     public $locationNav = [0=>'Выберите местоположение', 'adm'=> 'Административная часть', 'top'=>'Шапка сайта'];
 
-    public function __construct(NavigationCntr $nav)
+    public function __construct(Navigation $nav)
     {
         $this->topNav = $nav->select('top');
         $this->admNav = $nav->select('adm');
@@ -53,7 +53,7 @@ class AdminPanelPagesController extends Controller
         return view('admin.pagesUpdate', $data);
     }
 
-    public function delete($id, NavigationCntr $nav)
+    public function delete($id, Navigation $nav)
     {
         $nav->delete($id);
         return redirect()->route('adminPages')->with('status', 'Страница успешно удалена.');

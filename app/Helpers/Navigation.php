@@ -2,10 +2,9 @@
 
 namespace App\Helpers;
 
-use App\Helpers\Contracts\NavigationCntr;
 use App\Model\NavigationModel;
 
-class Navigation implements NavigationCntr
+class Navigation
 {
     public static function select($loc)
     {
@@ -31,13 +30,13 @@ class Navigation implements NavigationCntr
 
     public static function update($id, $data)
     {
-        $result = NavigationModel::find($id)->update($data);
+        $result = NavigationModel::where('id', $id)->update($data);
         return $result;
     }
 
     public static function delete($id)
     {
-        NavigationModel::find($id)->delete();
+        NavigationModel::fwhere('id', $id)->delete();
     }
 
 }

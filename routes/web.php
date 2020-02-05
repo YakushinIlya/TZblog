@@ -20,15 +20,34 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'role']], functio
     Route::get('/admin', 'AdminPanelController@index')->name('admin');
 
     Route::get('/admin/pages', 'AdminPanelPagesController@index')->name('adminPages');
-
     Route::get('/admin/pages/add', 'AdminPanelPagesController@add')->name('adminPagesAdd');
     Route::post('/admin/page/add', 'Content\PagesController@add')->name('adminPageAdd');
-
     Route::get('/admin/pages/update/{id}', 'AdminPanelPagesController@update')->name('adminPagesUpdate');
     Route::post('/admin/page/update', 'Content\PagesController@update')->name('adminPageUpdate');
-
     Route::get('/admin/pages/delete/{id}', 'AdminPanelPagesController@delete')->name('adminPagesDelete');
+
+    Route::get('/admin/category', 'AdminPanelCategoryController@index')->name('adminCategory');
+    Route::get('/admin/category/add', 'AdminPanelCategoryController@add')->name('adminCategorysAdd');
+    Route::post('/admin/category/add', 'Content\CategoryController@add')->name('adminCategoryAdd');
+    Route::get('/admin/category/update/{id}', 'AdminPanelCategoryController@update')->name('adminCategorysUpdate');
+    Route::post('/admin/category/update', 'Content\CategoryController@update')->name('adminCategoryUpdate');
+    Route::get('/admin/category/delete/{id}', 'AdminPanelCategoryController@delete')->name('adminCategoryDelete');
+
+    Route::get('/admin/posts', 'AdminPanelPostController@index')->name('adminPost');
+    Route::get('/admin/posts/add', 'AdminPanelPostController@add')->name('adminPostsAdd');
+    Route::post('/admin/post/add', 'Content\PostController@add')->name('adminPostAdd');
+    Route::get('/admin/posts/close/{id}', 'AdminPanelPostController@close')->name('adminPostClose');
+    Route::get('/admin/posts/open/{id}', 'AdminPanelPostController@open')->name('adminPostOpen');
+    Route::get('/admin/posts/update/{id}', 'AdminPanelPostController@update')->name('adminPostsUpdate');
+    Route::post('/admin/post/update', 'Content\PostController@update')->name('adminPostUpdate');
+    Route::get('/admin/post/delete/{id}', 'AdminPanelPostController@delete')->name('adminPostDelete');
+    Route::match(['get', 'post'], '/editor-upload', 'Content\AjaxUpload@editor')->name('EditorUpload');
+
+    Route::get('/admin/comments', 'AdminPanelCommentController@index')->name('adminComment');
+    Route::get('/admin/comments/public/{id}', 'AdminPanelCommentController@public')->name('adminCommentPublic');
+    Route::get('/admin/comments/delete/{id}', 'AdminPanelCommentController@delete')->name('adminCommentDelete');
 });
 
+Route::get('/category/{id}', 'HomeController@category')->name('category');
 Route::get('/{page}', 'HomeController@index')->name('page');
 
