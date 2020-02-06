@@ -9,7 +9,6 @@
     <tr>
         <th scope="col">#ID</th>
         <th scope="col">Заголовок</th>
-        <th scope="col">URL адрес</th>
         <th scope="col">Действие</th>
     </tr>
     </thead>
@@ -21,8 +20,8 @@
             <tr>
                 <th scope="row">{!! $category->id !!}</th>
                 <td>{!! $category->head !!}</td>
-                <td>{!! route('category', ['id'=>$category->id]) !!}</td>
                 <td>
+                    <a href="{!! route('category', ['id'=>$category->id]) !!}" class="btn btn-primary" target="_blank">{!! __('Просмотр') !!}</a>
                     <a href="{!! route('adminCategorysUpdate', ['id'=>$category->id]) !!}" class="btn btn-warning">{!! __('Редактировать') !!}</a>
                     <a href="{!! route('adminCategoryDelete', ['id'=>$category->id]) !!}" class="btn btn-danger">{!! __('Удалить') !!}</a>
                 </td>

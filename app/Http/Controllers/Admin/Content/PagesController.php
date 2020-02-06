@@ -26,10 +26,10 @@ class PagesController extends Controller
             $data = $request->except('_token');
             $validator = $this->validatorCreate($data);
             if ($validator->fails()) {
-                return redirect()->route('adminCategorysAdd')->withInput($request->all())->withErrors($validator);
+                return redirect()->route('adminPagesAdd')->withInput($request->all())->withErrors($validator);
             }
             if ($nav->create($request->all())) {
-                return redirect()->route('adminCategory')->with('status', 'Страница успешно добавлена.');
+                return redirect()->route('adminPages')->with('status', 'Страница успешно добавлена.');
             }
         }
     }

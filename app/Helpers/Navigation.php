@@ -36,7 +36,7 @@ class Navigation
 
     public static function delete($id)
     {
-        NavigationModel::fwhere('id', $id)->delete();
+        NavigationModel::where('id', $id)->delete();
     }
 
 }

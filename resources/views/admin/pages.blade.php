@@ -9,7 +9,6 @@
     <tr>
         <th scope="col">#ID</th>
         <th scope="col">Заголовок</th>
-        <th scope="col">URL адрес</th>
         <th scope="col">Действие</th>
     </tr>
     </thead>
@@ -21,8 +20,8 @@
             <tr>
                 <th scope="row">{!! $pages->id !!}</th>
                 <td>{!! $pages->head !!}</td>
-                <td>{!! $pages->url !!}</td>
                 <td>
+                    <a href="{!! $pages->url !!}" class="btn btn-primary" target="_blank">{!! __('Просмотр') !!}</a>
                     <a href="{!! route('adminPagesUpdate', ['id'=>$pages->id]) !!}" class="btn btn-warning">{!! __('Редактировать') !!}</a>
                     <a href="{!! route('adminPagesDelete', ['id'=>$pages->id]) !!}" class="btn btn-danger">{!! __('Удалить') !!}</a>
                 </td>
