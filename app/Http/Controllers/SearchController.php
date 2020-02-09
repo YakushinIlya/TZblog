@@ -16,12 +16,12 @@ class SearchController extends Controller
         $this->nav = $nav->select('top');
     }
 
-    public function index(PostModel $post, Request $request)
+    public function index(Request $request)
     {
         $result = [];
         $search = explode(' ', $request->search);
         foreach($search as $searchTerm){
-            $post = $post->where('head', 'like', '%'.$searchTerm.'%')
+            $post = PostModel::where('head', 'like', '%'.$searchTerm.'%')
                 ->orWhere('head2', 'like', '%'.$searchTerm.'%')
                 ->orWhere('content', 'like', '%'.$searchTerm.'%')->get();
             foreach($post as $res) {
