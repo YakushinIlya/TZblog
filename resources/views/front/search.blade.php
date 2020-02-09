@@ -33,10 +33,9 @@
                     </div>
                 </div>
             @endforeach
-                {!! $posts->links() !!}
         @else
             <div class="alert alert-warning">
-                {!! __('Новостей не найдено.') !!}
+                {!! __('Поиск не дал результатов.') !!}
             </div>
         @endif
     </div>

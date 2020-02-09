@@ -19,11 +19,11 @@ class CreatePostTable extends Migration
             $table->string('head2',250)->nullable();
             $table->string('photo',250)->nullable();
             $table->text('content')->nullable();
-            $table->string('category', 250)->nullable();
             $table->string('tags', 250)->nullable();
-            $table->string('likes', 7)->default(0);
-            $table->string('view', 7)->default(0);
-            $table->string('status', 1)->default(0);
+            $table->integer('likes', 7)->default(0);
+            $table->integer('view', 7)->default(0);
+            $table->integer('author', 7)->default(0);
+            $table->integer('status', 1)->default(1);
             $table->timestamps();
         });
     }

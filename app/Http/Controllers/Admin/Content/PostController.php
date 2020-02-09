@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin\Content;
 
 use App\Http\Controllers\Controller;
-use App\Helpers\Posts;
+use App\Model\PostModel;
 use App\Helpers\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class PostController extends Controller
@@ -16,72 +17,62 @@ class PostController extends Controller
             'head2' => ['required', 'string', 'max:250'],
             'content' => ['nullable', 'string'],
             'category' => ['nullable', 'array'],
-            'tags' => ['required', 'string', 'max:250'],
+            'tags' => ['nullable', 'string', 'max:250'],
         ]);
     }
 
-    public function add(Posts $post, Request $request)
+    public function add(PostModel $postModel, Request $request)
     {
-        if ($request->isMethod('post')) {
-            $request_data = $request;
-            if ($request->hasFile('photo')) {
-                $request_data = $this->uploadImg($request_data);
-            }
-            $data = $request->except('_token');
-            $validator = $this->validatorCreate($data);
-            if ($validator->fails()) {
-                return redirect()->route('adminPostsAdd')->withInput($request->all())->withErrors($validator);
-            }
-            $createPost = $post->create([
-                'head' => $request_data->head,
-                'head2' => $request_data->head2,
-                'photo' => $request_data->photo,
-                'content' => $request_data->content,
-                'category' => implode(',', $request_data->category),
-                'tags' => $request_data->tags,
-                'status' => 1,
-            ]);
-            if ($createPost) {
-                return redirect()->route('adminPost')->with('status', 'Новость успешно добавлена.');
-            }
+        $request->request->add(['author'=>Auth::user()->id]);
+        if ($request->hasFile('photoFile')) {
+            $request->request->add(['photo'=>$this->uploadImg($request)]);
+        } else {
+            $request->request->add(['photo'=>'no_photo.jpg']);
+        }
+        $data = $request->except('_token');
+        $validator = $this->validatorCreate($data);
+        if ($validator->fails()) {
+            return redirect()->route('adminPostsAdd')->withInput($request->all())->withErrors($validator);
+        }
+        $post = $postModel->create($request->all());
+        if ($request->input('category')) {
+            $post->category()->attach($request->input('category'));
+        }
+        if ($post) {
+            return redirect()->route('adminPost')->with('status', 'Новость успешно добавлена.');
         }
     }
 
-    public function update(Posts $posts, Request $request)
+    public function update(Request $request)
     {
-        if ($request->isMethod('post')) {
-            if ($request->hasFile('photo')) {
-                $request->request->add(['photoName'=>$this->uploadImg($request)]);
-            } else {
-                $request->request->add(['photoName'=>str_replace('/uploads/avatars/', '', $request->preview)]);
-            }
-            $data = $request->except('_token');
-            $validator = $this->validatorCreate($data);
-            if ($validator->fails()) {
-                return redirect()->route('adminPostsUpdate', $request->id)->withInput($request->all())->withErrors($validator);
-            }
-
-            $updatePost = $posts->update($request->id, [
-                'head' => $request->head,
-                'head2' => $request->head2,
-                'photo' => $request->photoName,
-                'content' => $request->content,
-                'category' => implode(',', $request->category),
-                'tags' => $request->tags,
-            ]);
-            if ($updatePost) {
-                return redirect()->route('adminPost')->with('status', 'Новость успешно обновлена.');
-            }
+        $request->request->add(['author'=>Auth::user()->id]);
+        if ($request->hasFile('photoFile')) {
+            $request->request->add(['photo'=>$this->uploadImg($request)]);
+        } else {
+            $request->request->add(['photo'=>str_replace('/uploads/avatars/', '', $request->preview)]);
         }
+        $data = $request->except('_token');
+        $validator = $this->validatorCreate($data);
+        if ($validator->fails()) {
+            return redirect()->route('adminPostsUpdate', $request->id)->withInput($request->all())->withErrors($validator);
+        }
+
+        $post = PostModel::find($request->id);
+        $post->update($request->all());
+        $post->category()->detach();
+        if ($request->input('category')) {
+            $post->category()->attach($request->input('category'));
+        }
+        return redirect()->route('adminPost')->with('status', 'Новость успешно обновлена.');
     }
 
     public function uploadImg($request)
     {
-        $fileExt = $request->file('photo')->getClientOriginalExtension();
+        $fileExt = $request->file('photoFile')->getClientOriginalExtension();
         $fileName = md5(time());
         $destinationPath = '../public/uploads/avatars/';
         $fileName = $fileName.'.'.mb_strtolower($fileExt);
-        $request->file('photo')->move($destinationPath, $fileName);
+        $request->file('photoFile')->move($destinationPath, $fileName);
 
         $image = new Image;
         $image->load($destinationPath.$fileName);

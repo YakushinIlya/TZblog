@@ -9,7 +9,7 @@
 
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon.ico">
-    <link href="/css/carousel.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
 
 </head>
 <body>
@@ -24,10 +24,23 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
+                @if(Request::path()=='/')
+                    @php($actIndex='active')
+                @else
+                    @php($actIndex='')
+                @endif
+                <li class="nav-item">
+                    <a class="nav-link  {!! $actIndex ?? '' !!}" href="/">Главная</a>
+                </li>
                 @isset($topNav)
                     @foreach($topNav as $nav)
+                        @if(Request::path()==$nav->url)
+                            @php($act='active')
+                        @else
+                            @php($act='')
+                        @endif
                         <li class="{!! $nav->class_li !!}">
-                            <a class="{!! $nav->class_a !!}" href="{!! $nav->url !!}">{!! $nav->head !!}</a>
+                            <a class="{!! $nav->class_a !!} {!! $act ?? '' !!}" href="/{!! $nav->url !!}">{!! $nav->head !!}</a>
                         </li>
                     @endforeach
                 @endisset
@@ -68,6 +81,11 @@
                     </li>
                 @endguest
             </ul>
+            <form action="{!! route('search') !!}" method="post" class="form-inline my-2 my-lg-0">
+                @csrf
+                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Введите фразу">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+            </form>
         </div>
     </nav>
 </header>
@@ -81,6 +99,8 @@
     </footer>
 </main>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script src="/js/custom.js"></script>
  </html>

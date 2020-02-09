@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\Navigation;
 
 class RegisterController extends Controller
 {
@@ -36,8 +37,9 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Navigation $nav)
     {
+        $this->nav = $nav->select('top');
         $this->middleware('guest');
     }
 
@@ -69,5 +71,13 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function showRegistrationForm()
+    {
+        $data = [
+            'topNav' => $this->nav,
+        ];
+        return view('auth.register', $data);
     }
 }

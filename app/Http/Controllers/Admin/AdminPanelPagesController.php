@@ -5,18 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Navigation;
 use App\Model\NavigationModel;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class AdminPanelPagesController extends Controller
 {
-    public $topNav;
     public $admNav;
-    public $listNav;
     public $locationNav = [0=>'Выберите местоположение', 'adm'=> 'Административная часть', 'top'=>'Шапка сайта'];
 
     public function __construct(Navigation $nav)
     {
-        $this->topNav = $nav->select('top');
         $this->admNav = $nav->select('adm');
         $this->listNav = $nav->selectAll();
     }
@@ -24,7 +20,6 @@ class AdminPanelPagesController extends Controller
     public function index()
     {
         $data = [
-            'topNav' => $this->topNav,
             'admNav' => $this->admNav,
             'pageList' => $this->listNav,
         ];
@@ -34,7 +29,6 @@ class AdminPanelPagesController extends Controller
     public function add()
     {
         $data = [
-            'topNav' => $this->topNav,
             'admNav' => $this->admNav,
             'location' => $this->locationNav,
         ];
@@ -45,7 +39,6 @@ class AdminPanelPagesController extends Controller
     {
         $page = NavigationModel::find($id);
         $data = [
-            'topNav' => $this->topNav,
             'admNav' => $this->admNav,
             'location' => $this->locationNav,
             'data' => $page,

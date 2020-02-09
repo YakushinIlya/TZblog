@@ -17,13 +17,13 @@
     </thead>
     <tbody>
         <tr>
-            <th scope="col" colspan="4">Всего комментариев: {!! count($commentsList) ?? 0 !!}</th>
+            <th scope="col" colspan="4">Всего комментариев: {!! $count ?? 0 !!}</th>
         </tr>
         @foreach($commentsList as $comment)
             <tr>
                 <th scope="row">{!! $comment->id !!}</th>
                 <td>{!! $comment->name !!}</td>
-                <td>{!! $comment->url !!}</td>
+                <td>{!! route('post', ['id'=>$comment->id_post]) !!}</td>
                 <td>{!! substr($comment->content, 0, 600) !!} ...</td>
                 <td>
                     @if($comment->status>0)
@@ -34,13 +34,18 @@
                 </td>
                 <td>{!! $comment->created_at !!}</td>
                 <td>
-                    <a href="{!! route('adminCommentPublic', ['id'=>$comment->id]) !!}" class="btn btn-warning">{!! __('Опубликовать') !!}</a>
+                    @if($comment->status==1)
+                        <a href="{!! route('adminCommentPublicOut', ['id'=>$comment->id]) !!}" class="btn btn-warning">{!! __('Снять с публикации') !!}</a>
+                    @else
+                        <a href="{!! route('adminCommentPublic', ['id'=>$comment->id]) !!}" class="btn btn-warning">{!! __('Опубликовать') !!}</a>
+                    @endif
                     <a href="{!! route('adminCommentDelete', ['id'=>$comment->id]) !!}" class="btn btn-danger">{!! __('Удалить') !!}</a>
                 </td>
             </tr>
         @endforeach
     </tbody>
 </table>
+{!! $commentsList->links() !!}
 @else
     <div class="alert alert-warning">
         {!! __('Комментариев не найдено.') !!}

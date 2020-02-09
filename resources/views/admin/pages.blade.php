@@ -21,7 +21,7 @@
                 <th scope="row">{!! $pages->id !!}</th>
                 <td>{!! $pages->head !!}</td>
                 <td>
-                    <a href="{!! $pages->url !!}" class="btn btn-primary" target="_blank">{!! __('Просмотр') !!}</a>
+                    <a href="{!! route('page', ['page'=>$pages->url]) !!}" class="btn btn-primary" target="_blank">{!! __('Просмотр') !!}</a>
                     <a href="{!! route('adminPagesUpdate', ['id'=>$pages->id]) !!}" class="btn btn-warning">{!! __('Редактировать') !!}</a>
                     <a href="{!! route('adminPagesDelete', ['id'=>$pages->id]) !!}" class="btn btn-danger">{!! __('Удалить') !!}</a>
                 </td>
@@ -29,6 +29,7 @@
         @endforeach
     </tbody>
 </table>
+    {!! $pageList->links() !!}
 @else
     <div class="alert alert-warning">
         {!! __('Страниц не найдено.') !!}

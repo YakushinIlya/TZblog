@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Navigation;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class AdminPanelController extends Controller
 {

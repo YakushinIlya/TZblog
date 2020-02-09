@@ -6,7 +6,7 @@ use App\Helpers\Navigation;
 use App\Model\PostModel;
 use App\User;
 
-class HomeController extends Controller
+class AuthorController extends Controller
 {
     public $nav;
 
@@ -14,16 +14,12 @@ class HomeController extends Controller
     {
         $this->nav = $nav->select('top');
     }
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index(PostModel $post)
+
+    public function index($id, PostModel $post)
     {
         $data = [
             'topNav' => $this->nav,
-            'posts' => $post->where('status', 1)->orderBy('id', 'desc')->paginate(5),
+            'posts' => $post->whereRaw('author=? && status=?', [$id, 1])->orderBy('id', 'desc')->paginate(5),
             'user' => new User(),
         ];
         return view('front.index', $data);

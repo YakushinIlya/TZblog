@@ -30,7 +30,7 @@
                 <img src="{!! $data['photo'] !!}" style="max-width: 100px; max-height: 100px;" class="img-thumbnail">
                 {!! Form::hidden('preview', $data['photo']) !!}
                 <div class="input-group">
-                    {!! Form::file('photo', ['class' => 'form-control', 'accept'=>'image/jpg,image/jpeg,image/JPG,image/JPEG,image/png,image/gif']) !!}
+                    {!! Form::file('photoFile', ['class' => 'form-control', 'accept'=>'image/jpg,image/jpeg,image/JPG,image/JPEG,image/png,image/gif']) !!}
                     <span class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                             </span>

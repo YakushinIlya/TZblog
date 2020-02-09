@@ -3,30 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Navigation;
-use App\Helpers\Category;
 use App\Model\CategoryModel;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class AdminPanelCategoryController extends Controller
 {
-    public $topNav;
     public $admNav;
-    public $categoryList;
 
-    public function __construct(Navigation $nav, Category $cat)
+    public function __construct(Navigation $nav)
     {
-        $this->topNav = $nav->select('top');
         $this->admNav = $nav->select('adm');
-        $this->categoryList = $cat->select();
     }
 
-    public function index()
+    public function index(CategoryModel $cat)
     {
         $data = [
-            'topNav' => $this->topNav,
             'admNav' => $this->admNav,
-            'categoryList' => $this->categoryList,
+            'categoryList' => $cat->orderBy('id', 'desc')->paginate(5),
+            'cat' => $cat,
+            'count' => $cat->count(),
         ];
         return view('admin.category', $data);
     }
@@ -51,9 +46,9 @@ class AdminPanelCategoryController extends Controller
         return view('admin.categoryUpdate', $data);
     }
 
-    public function delete($id, Category $cat)
+    public function delete($id, CategoryModel $cat)
     {
-        $cat->delete($id);
+        $cat->where('id', $id)->delete();
         return redirect()->route('adminCategory')->with('status', 'Категория успешно удалена.');
     }
 }

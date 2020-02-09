@@ -27,7 +27,7 @@
             <div class="form-group">
                 {!! Form::label('photo', 'Превью новости:',['class'=>'control-label']) !!}
                 <div class="input-group">
-                    {!! Form::file('photo', ['class' => 'form-control', 'accept'=>'image/jpg,image/jpeg,image/JPG,image/JPEG,image/png,image/gif']) !!}
+                    {!! Form::file('photoFile', ['class' => 'form-control', 'accept'=>'image/jpg,image/jpeg,image/JPG,image/JPEG,image/png,image/gif']) !!}
                     <span class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                             </span>

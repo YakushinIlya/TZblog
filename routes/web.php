@@ -45,9 +45,19 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'role']], functio
 
     Route::get('/admin/comments', 'AdminPanelCommentController@index')->name('adminComment');
     Route::get('/admin/comments/public/{id}', 'AdminPanelCommentController@public')->name('adminCommentPublic');
+    Route::get('/admin/comments/public-out/{id}', 'AdminPanelCommentController@publicOut')->name('adminCommentPublicOut');
     Route::get('/admin/comments/delete/{id}', 'AdminPanelCommentController@delete')->name('adminCommentDelete');
 });
 
-Route::get('/category/{id}', 'HomeController@category')->name('category');
-Route::get('/{page}', 'HomeController@index')->name('page');
+Route::post('/ajax/likes', 'PostController@likes')->name('likes');
+Route::post('/comment/{id}', 'PostController@comment')->where('id', '[0-9]+')->name('commentAdd');
+
+Route::get('/category', 'CategoryController@index')->name('categories');
+Route::get('/category/{id}', 'CategoryController@category')->where('id', '[0-9]+')->name('category');
+Route::get('/author/{id}', 'AuthorController@index')->where('id', '[0-9]+')->name('author');
+Route::get('/post/{id}', 'PostController@index')->where('id', '[0-9]+')->name('post');
+Route::get('/{page}', 'PageController@index')->where('page', '[A-Za-z0-9]+')->name('page');
+
+Route::post('/search', 'SearchController@index')->name('search');
+
 

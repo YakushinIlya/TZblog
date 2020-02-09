@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Helpers\Navigation;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -33,8 +34,19 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public $nav;
+
+    public function __construct(Navigation $nav)
     {
         $this->middleware('guest')->except('logout');
+        $this->nav = $nav->select('top');
+    }
+
+    public function showLoginForm()
+    {
+        $data = [
+            'topNav' => $this->nav,
+        ];
+        return view('auth.login', $data);
     }
 }

@@ -20,7 +20,7 @@
     </thead>
     <tbody>
     <tr>
-        <th scope="col" colspan="4">Всего публикаций: {!! count($postsList) ?? 0 !!}</th>
+        <th scope="col" colspan="4">Всего публикаций: {!! $count ?? 0 !!}</th>
     </tr>
         @foreach($postsList as $post)
             <tr>
@@ -62,6 +62,7 @@
         @endforeach
     </tbody>
 </table>
+    {!! $postsList->links() !!}
 @else
     <div class="alert alert-warning">
         {!! __('Новостей не найдено.') !!}

@@ -67,8 +67,13 @@
                 <ul class="nav flex-column">
                     @isset($admNav)
                         @foreach($admNav as $nav)
+                            @if(Request::path()==$nav->url)
+                                @php($act='active')
+                            @else
+                                @php($act='')
+                            @endif
                             <li class="{!! $nav->class_li !!}">
-                                <a class="{!! $nav->class_a !!}" href="{!! $nav->url !!}">{!! $nav->head !!}</a>
+                                <a class="{!! $nav->class_a !!} {!! $act ?? '' !!}" href="/{!! $nav->url !!}">{!! $nav->head !!}</a>
                             </li>
                         @endforeach
                     @endisset

@@ -3,45 +3,49 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Navigation;
-use App\Helpers\Comments;
+use App\Model\CommentsModel;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class AdminPanelCommentController extends Controller
 {
-    public $topNav;
     public $admNav;
-    public $commentsList;
 
-    public function __construct(Navigation $nav, Comments $com)
+    public function __construct(Navigation $nav)
     {
-        $this->topNav = $nav->select('top');
         $this->admNav = $nav->select('adm');
-        $this->commentsList = $com->select();
     }
 
-    public function index()
+    public function index(CommentsModel $com)
     {
         $data = [
-            'topNav' => $this->topNav,
             'admNav' => $this->admNav,
-            'commentsList' => $this->commentsList,
+            'commentsList' => $com->orderBy('id', 'desc')->paginate(10),
+            'count' => $com->count(),
         ];
         return view('admin.comments', $data);
     }
 
-    public function public($id, Comments $com)
+    public function public($id, CommentsModel $com)
     {
-        if ($com->public($id)) {
+        if ($com->where('id', $id)->update(['status'=>1])) {
             return redirect()->route('adminComment')->with('status', 'Комментарий успешно опубликован.');
         } else {
             return redirect()->route('adminComment')->withErrors(['Не удалось опубликовать комментарий.']);
         }
     }
 
-    public function delete($id, Comments $com)
+    public function publicOut($id, CommentsModel $com)
     {
-        $com->delete($id);
+        if ($com->where('id', $id)->update(['status'=>0])) {
+            return redirect()->route('adminComment')->with('status', 'Комментарий успешно снят с публикации.');
+        } else {
+            return redirect()->route('adminComment')->withErrors(['Не удалось снять с публикации комментарий.']);
+        }
+    }
+
+    public function delete($id, CommentsModel $com)
+    {
+        $com->where('id', $id)->delete();
         return redirect()->route('adminComment')->with('status', 'Комментарий успешно удален.');
     }
 }
