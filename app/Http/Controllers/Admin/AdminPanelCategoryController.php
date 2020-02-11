@@ -29,7 +29,6 @@ class AdminPanelCategoryController extends Controller
     public function add()
     {
         $data = [
-            'topNav' => $this->topNav,
             'admNav' => $this->admNav,
         ];
         return view('admin.categoryAdd', $data);
@@ -39,7 +38,6 @@ class AdminPanelCategoryController extends Controller
     {
         $cat = CategoryModel::find($id);
         $data = [
-            'topNav' => $this->topNav,
             'admNav' => $this->admNav,
             'data' => $cat,
         ];
